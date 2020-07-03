@@ -1,0 +1,78 @@
+﻿@using e_shastho.Models
+@model List<CoronaUpdateModel>
+
+@{
+    ViewData["Title"] = "করোনা আপডেট (বাংলাদেশ)";
+}
+
+<div class="text-center col-12">
+    <h1>করোনা আপডেট (বাংলাদেশ)</h1>
+
+    <br />
+
+
+    @if (!Model.Any())
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table class="table table-hover">
+            <thead>
+                <tr>
+
+                    <th>তারিখ</th>
+                    <th>নতুন সনাক্ত</th>
+                    <th>চলমান কেইস</th>
+                    <th>নতুন মৃত্যু</th>
+                    <th>সর্বমোট সনাক্ত</th>
+                    <th>সর্বমোট মৃত্যু</th>
+                    <th>মোট সুস্থ</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (CoronaUpdateModel coronaUpdate in Model)
+                {
+
+                    <tr>
+                        <td>@coronaUpdate.Date.Value.ToShortDateString()</td>
+                        <td>@coronaUpdate.NewDailyCases</td>
+                        <td>@coronaUpdate.ActiveCases</td>
+                        <td>@coronaUpdate.NewDailyDeaths</td>
+                        <td>@coronaUpdate.TotalCases</td>
+                        <td>@coronaUpdate.TotalDeaths</td>
+                        <td>@coronaUpdate.TotalRecoveries</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $(".table").DataTable({
+                responsive: true,
+                columnDefs: [
+                    { responsivePriority: 1, targets: 0 },
+                    { responsivePriority: 2, targets: 1 },
+                    { responsivePriority: 3, targets: 3 },
+                    { responsivePriority: 4, targets: 4 },
+                    { responsivePriority: 5, targets: 5 },
+                    { responsivePriority: 6, targets: 2 },
+                    { responsivePriority: 7, targets: 6 }
+                ],
+                "order": []
+            });
+            $(".datepicker").datepicker({
+                format: "mm/dd/yyyy",
+                autoHide: true
+            });
+
+            $(".dataTables_filter input").attr("placeholder", "সার্চ করুন");
+        });
+    </script>
+}

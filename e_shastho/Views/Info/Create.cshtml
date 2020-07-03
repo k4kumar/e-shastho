@@ -1,0 +1,67 @@
+﻿@using e_shastho.Data
+@model Advice
+
+@{
+    ViewData["Title"] = "তথ্য যোগ করুন";
+}
+
+
+<div class="card-body">
+    <h4 class="m-b-0">তথ্য যোগ করুন</h4>
+
+    @using (Html.BeginForm("Create", "Info", FormMethod.Post, new { @class = "form-horizontal m-t-40", enctype = "multipart/form-data" }))
+    {
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group row">
+            <input type="hidden" name="Id" id="Id" value="0" />
+            @Html.LabelFor(e => e.Title, "শিরোনাম", new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(e => e.Title, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(e => e.AdvisorName, "তথ্য দাতার নাম ও বিস্তারিত", new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(e => e.AdvisorName, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(e => e.Email, "তথ্য দাতার ইমেইল", new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(e => e.Email, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(e => e.Reference, "তথ্য সোর্স", new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(e => e.Reference, new { @class = "form-control" })
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            @Html.LabelFor(e => e.Reference, "কন্টেন্ট", new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextAreaFor(model => model.Content, new { @class = "form-control summernote", @rows = 5, required = "required" })
+            </div>
+        </div>
+
+        <hr>
+        <a class="btn waves-effect waves-light btn-rounded btn-secondary" href="@Url.RouteUrl("Information")">Back to List</a>
+        <button type="submit" value="Submit" class="btn btn-success  btn-rounded" style="float:right; margin-top:5px;"><i class="fas fa-save"></i> Create</button>
+
+    }
+</div>
+
+
+@section Scripts{
+
+    <script>
+        CKEDITOR.replace('Content');
+    </script>
+}

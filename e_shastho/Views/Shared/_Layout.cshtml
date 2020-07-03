@@ -1,0 +1,98 @@
+﻿@using e_shastho.Helpers;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - স্বাস্থ্যসেবা</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css" />
+    <link href="~/Content/jqueryui/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/datepicker/datepicker.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <link href="~/Content/css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" href="@Url.RouteUrl("Home")" style="color:blue">স্বাস্থ্যসেবা</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item @Html.IsSelected(actions: "Index", controllers: "CoronaUpdate")">
+                            <a class="nav-link text-dark" href="@Url.RouteUrl("BangladeshUpdate")"><span class="menu-text">বাংলাদেশ আপডেট&nbsp;</span><span class="divider">|</span></a>
+                        </li>
+                        <li class="nav-item @Html.IsSelected(actions: "WorldUpdate", controllers: "CoronaUpdate")">
+                            <a class="nav-link text-dark" href="@Url.RouteUrl("WorldUpdate")"><span class="menu-text">আন্তর্জাতিক আপডেট &nbsp;</span><span class="divider">|</span></a>
+                        </li>
+                        <li class="nav-item @Html.IsSelected(actions: "Index", controllers: "Hospital")">
+                            <a class="nav-link text-dark" href="@Url.RouteUrl("Hospitals")"><span class="menu-text">হাসপাতালসমূহ &nbsp;</span><span class="divider">|</span></a>
+                        </li>
+                        <li class="nav-item @Html.IsSelected(actions: "Index", controllers: "TestLocation")">
+                            <a class="nav-link text-dark" href="@Url.RouteUrl("TestLocations")"><span class="menu-text">টেস্ট কেন্দ্রসমূহ &nbsp;</span><span class="divider">|</span></a>
+                        </li>
+                        <li class="nav-item @Html.IsSelected(actions: "Index", controllers: "Info")">
+                            <a class="nav-link text-dark" href="@Url.RouteUrl("Information")"><span class="menu-text">তথ্যসমগ্র &nbsp;</span><span class="divider">|</span></a>
+                        </li>
+                        <li class="nav-item @Html.IsSelected(actions: "Index", controllers: "PlasmaDonor")">
+                            <a class="nav-link text-dark" href="@Url.RouteUrl("PlasmaDonors")"><span class="menu-text">প্লাজমা ডোনার &nbsp;</span><span class="divider">|</span></a>
+                        </li>
+                        <li class="nav-item @Html.IsSelected(actions: "About", controllers: "Home")">
+                            <a class="nav-link text-dark" href="@Url.RouteUrl("AboutDeveloper")"><span class="menu-text">যোগাযোগ &nbsp;</span><span class="divider">|</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; @DateTime.Now.Year - স্বাস্থ্যসেবা
+        </div>
+    </footer>
+    <script src="~/Content/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/Content/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>
+    <script src="~/Content/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/Content/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Content/jqueryui/jquery-ui.js"></script>
+    <script src="~/Content/datepicker/datepicker.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="~/Content/js/site.js"></script>
+    <script>
+        $('.summernote').summernote({
+            height: 350, // set editor height
+            minHeight: null, // set minimum height of editor
+            maxHeight: null, // set maximum height of editor
+            focus: false, // set focus to editable area after initializing summernote
+            filebrowserImageBrowseUrl: '/Content/admin-assets',
+            filebrowserImageUploadUrl: '/Content/admin-assets',
+            callbacks: {
+                onPaste: function (e) {
+                    var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                    e.preventDefault();
+                    document.execCommand('insertText', false, bufferText);
+                }
+            }
+        });
+
+        $(".datepicker").datepicker({
+            autoHide: true
+        });
+    </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,111 @@
+﻿@using e_shastho.Data
+@model Hospital
+@{
+    ViewData["Title"] = "করোনা সেবায় নিযুক্ত হাসপাতাল";
+}
+
+
+<div class="card-body">
+    <h4 class="m-b-0">করোনা সেবায় নিযুক্ত হাসপাতাল</h4>
+
+    @using (Html.BeginForm("Create", "Hospital", FormMethod.Post, new { @class = "form-horizontal m-t-40", enctype = "multipart/form-data" }))
+    {
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group row">
+            <input type="hidden" name="Id" id="Id" value="0" />
+            @Html.LabelFor(e => e.Name, "হাসপাতালের নাম", new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(e => e.Name, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(e => e.Contact, "যোগাযোগ", new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(e => e.Contact, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(e => e.Details, "বিস্তারিত", new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(e => e.Details, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(e => e.Type, "প্রকার", new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <select class="form-control" name="Type" id="Type">
+                    <option value="">Select</option>
+                    <option value="Public">সরকারি</option>
+                    <option value="Private">বেসরকারি</option>
+                </select>
+            </div>
+        </div>
+
+
+
+        <div class="form-group row">
+            <label for="Address" class="col-sm-2 col-form-label">ঠিকানা</label>
+            <div class="col-sm-10">
+                <div class="col-12" style="float: right;padding-left:0px">
+                    <fieldset class="gllpLatlonPicker">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <input type="text" class="form-control gllpSearchField" id="Address" name="Address">
+                            </div>
+                            <div style="text-align: right" class="col-md-2">
+                                <input type="button" class="gllpSearchButton btn btn-danger btn-fill" value="search">
+                            </div>
+                        </div>
+                        <br />
+
+                        <div style="width: 100%" class="gllpMap">গুগল ম্যাপ</div>
+
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="control-label">Latitude:</label>
+                                @Html.TextBoxFor(model => model.Latitude, htmlAttributes: new { @class = "form-control gllpLatitude", @Value = 22.356851 })
+                                @*<input asp-for="Latitude" value="22.356851" id="Latitude" name="Latitude" class="form-control gllpLatitude" />*@
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label">Longitude:</label>
+                                @Html.TextBoxFor(model => model.Longitude, htmlAttributes: new { @class = "form-control gllpLongitude", @Value = 91.7831819 })
+                                @*<input asp-for="Longitude" value="91.7831819" id="Longitude" name="Longitude" class="form-control gllpLongitude" />*@
+                            </div>
+
+                            <div class="col-md-3" style="display:none">
+                                <label class="control-label">Zoom</label>
+                                <input type="text" class="form-control gllpZoom" value="12" />
+                            </div>
+                            <div style="display:none" class="col-md-1">
+                                <input type="button" class="gllpUpdateButton btn btn-danger btn-fill" value="Zoom">
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+
+        <hr>
+        <a class="btn waves-effect waves-light btn-rounded btn-secondary" href="@Url.RouteUrl("Hospitals")">Back to List</a>
+        <button type="submit" value="Submit" class="btn btn-success  btn-rounded" style="float:right; margin-top:5px;"><i class="fas fa-save"></i> Create</button>
+
+    }
+</div>
+
+
+@section Scripts{
+
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyAkirniccOj_0KcRX4tqXih70MC3JIVUvA"></script>
+    <!-- CSS and JS for our code -->
+    <script src="~/Content/css/jquery-gmaps-latlon-picker.js"></script>
+    <link href="~/Content/css/jquery-gmaps-latlon-picker.css" rel="stylesheet" />
+}

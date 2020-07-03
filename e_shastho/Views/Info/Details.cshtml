@@ -1,0 +1,17 @@
+﻿@using e_shastho.Data
+@model Advice
+@{
+    ViewData["Title"] = "বিস্তারিত";
+}
+
+<p style="text-align:right">
+    <a class="btn btn-info" href="@Url.RouteUrl("Information")">তথ্য তালিকায় ফেরত যান</a>
+</p>
+
+<div class="text-left">
+    <h3 class="text-center">@Model.Title</h3>
+    <hr />
+    @Html.Raw(@Model.Content)
+    <p>পোস্ট ক্রেডিটঃ @Model.AdvisorName</p>
+    <p><a href=@Model.Reference>পোস্ট রেফারেন্স লিংক</a></p>
+</div>

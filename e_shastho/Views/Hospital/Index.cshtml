@@ -1,0 +1,81 @@
+﻿@using e_shastho.Data
+@model List<Hospital>
+
+@{
+    ViewData["Title"] = "করোনা সেবায় নিযুক্ত হাসপাতাল";
+}
+
+<div class="text-center">
+    <h1>করোনা সেবায় নিযুক্ত হাসপাতাল</h1>
+    <br />
+
+    <p style="text-align:right">
+        <a class="btn btn-info" href="@Url.RouteUrl("HospitalLocator")">গুগল ম্যাপে দেখুন</a>
+        @*<a class="btn btn-info" asp-area="" asp-controller="Hospital" asp-action="Create">হাসপাতালের তথ্য সংরক্ষণ</a>*@
+    </p>
+
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>নাম</th>
+                <th>ঠিকানা</th>
+                <th>যোগাযোগ</th>
+                <th>ধরন</th>
+                <th>অন্যান্য তথ্য</th>
+            </tr>
+        </thead>
+        @if (!Model.Any())
+        {
+            <tbody>
+                <tr>
+                    <td colspan="5">ডাটা পাওয়া যায় নি</td>
+                </tr>
+            </tbody>
+        }
+        else
+        {
+            <tbody>
+                @foreach (Hospital hospital in Model)
+                {
+                    <tr>
+                        <td>@hospital.Name</td>
+                        <td>@hospital.Address</td>
+                        <td>@hospital.Contact</td>
+                        @if (hospital.Type == "Public")
+                        {
+                            <td>সরকারি</td>
+                        }
+                        else
+                        {
+                            <td>প্রাইভেট</td>
+                        }
+                        <td>@hospital.Details</td>
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
+</div>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $(".table").DataTable({
+                responsive: true,
+                columnDefs: [
+                    { responsivePriority: 1, targets: 0 },
+                    { responsivePriority: 2, targets: 1 },
+                    { responsivePriority: 3, targets: 2 },
+                    { responsivePriority: 4, targets: 3 },
+                    { responsivePriority: 5, targets: 4 }
+                ]
+            });
+
+            $(".dataTables_filter input").attr("placeholder", "সার্চ করুন");
+        });
+
+
+    </script>
+}

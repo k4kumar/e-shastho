@@ -1,0 +1,76 @@
+﻿@using e_shastho.Data;
+@model List<PlasmaDonor>
+
+@{
+    ViewData["Title"] = "প্লাজমা দাতাদের তালিকা";
+}
+
+<div class="text-center">
+    <h1>প্লাজমা দাতাগণ</h1>
+    <br />
+
+    <p style="text-align:right">
+        <a class="btn btn-info" href="@Url.RouteUrl("PlasmaDonorCreate")">প্লাজমা দাতার তথ্য সংরক্ষণ</a>
+    </p>
+
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>নাম</th>
+                <th>ঠিকানা</th>
+                <th>সুস্থ হওয়ার তারিখ</th>
+                <th>যোগাযোগ</th>
+                <th>প্লাজমা দানকৃত কিনা</th>
+            </tr>
+        </thead>
+        @if (!Model.Any())
+        {
+            <tbody>
+                <tr>
+                    <td colspan="5">কোন তথ্য পাওয়া যায়নি</td>
+                </tr>
+            </tbody>
+        }
+        else
+        {
+            <tbody>
+                @foreach (PlasmaDonor plasmaDonor in Model)
+                {
+                    <tr>
+                        <td>@plasmaDonor.Name</td>
+                        <td>@plasmaDonor.Address</td>
+                        <td>@plasmaDonor.RecoveryDate.ToShortDateString()</td>
+                        <td>@plasmaDonor.Contact</td>
+                        <td>@plasmaDonor.HasDonated</td>
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
+</div>
+
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $(".table").DataTable({
+                responsive: true,
+                columnDefs: [
+                    { responsivePriority: 1, targets: 0 },
+                    { responsivePriority: 2, targets: 1 },
+                    { responsivePriority: 3, targets: 3 },
+                    { responsivePriority: 4, targets: 2 },
+                    { responsivePriority: 5, targets: 4 }
+                ]
+            });
+            $(".datepicker").datepicker({
+                format: "mm/dd/yyyy",
+                autoHide: true
+            });
+
+            $(".dataTables_filter input").attr("placeholder", "সার্চ করুন");
+        });
+    </script>
+}

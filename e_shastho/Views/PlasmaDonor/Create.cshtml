@@ -1,0 +1,80 @@
+﻿@using e_shastho.Data
+@model PlasmaDonor
+@{
+    ViewData["Title"] = "প্লাজমা দাতার তথ্য সংরক্ষণ";
+}
+
+
+<div class="card-body">
+    <h4 class="m-b-0">প্লাজমা দাতার তথ্য সংরক্ষণ</h4>
+
+    @using (Html.BeginForm("Create", "PlasmaDonor", FormMethod.Post, new { @class = "form-horizontal m-t-40", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group row">
+            <input type="hidden" name="Id" id="Id" value="0" />
+            @Html.LabelFor(e => e.Name, "দাতার নাম", new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(e => e.Name, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(e => e.Address, "ঠিকানা", new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(e => e.Address, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(e => e.Contact, "যোগাযোগ", new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(e => e.Contact, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(e => e.CoronaAffectedDate, "আক্রান্ত হওয়ার তারিখ", new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(e => e.CoronaAffectedDate, new { @class = "form-control datepicker" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(e => e.RecoveryDate, "সুস্থ হওয়ার তারিখ", new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(e => e.RecoveryDate, new { @class = "form-control datepicker" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(e => e.Email, "ইমেইল", new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(e => e.Email, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(e => e.BloodGroup, "ব্লাড গ্রুপ", new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <select class="form-control" name="BloodGroup" id="BloodGroup">
+                    <option value="">Select</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                </select>
+            </div>
+        </div>
+
+        <hr>
+        <a class="btn waves-effect waves-light btn-rounded btn-secondary" href="@Url.RouteUrl("PlasmaDonors")">Back to List</a>
+        <button type="submit" value="Submit" class="btn btn-success  btn-rounded" style="float:right; margin-top:5px;"><i class="fas fa-save"></i> Create</button>
+
+    }
+</div>

@@ -1,0 +1,146 @@
+﻿@using e_shastho.Data
+@model List<Hospital>
+@{
+    ViewData["Title"] = "করোনা সেবায় নিযুক্ত হাসপাতাল";
+}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .parent {
+        padding: 12px;
+    }
+
+    #main_map, .all_contact {
+        height: 80vh;
+    }
+
+    .all_contact {
+        overflow-y: scroll;
+    }
+
+    .leaflet-popup-close-button {
+        display: none;
+    }
+
+    .contact_parent {
+        font-size: 1.03em;
+        padding: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .contact_parent:hover {
+            background: rgb(240,240,240);
+        }
+
+        .contact_parent span {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+    .name_holder {
+        font-size: 1.3em;
+        font-weight: bold;
+    }
+
+    .contact_holder {
+        font-size: 1.2em;
+    }
+
+    .popup_image {
+        width: 100%;
+        margin-bottom: 6px;
+    }
+</style>
+
+
+<div class="text-center">
+    <h1>করোনা সেবায় নিযুক্ত হাসপাতাল</h1>
+    <br />
+
+    <p style="text-align:right">
+        <a class="btn btn-info" href="@Url.RouteUrl("Hospitals")">হাসপাতালের তালিকা</a>
+        @*<a class="btn btn-info" asp-area="" asp-controller="Hospital" asp-action="Create">হাসপাতালের তথ্য সংরক্ষণ</a>*@
+    </p>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-md-12 col-sm-12">
+                <div id="main_map">
+
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12">
+                হাসপাতালের নামের উপর ক্লিক করুন
+                <div class="all_contact">
+                    @foreach (Hospital hospital in Model)
+                    {
+                        <div class="contact_parent">
+                            <span>@hospital.Name</span><br />
+                            @hospital.Contact
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script>
+
+				$(document).ready(function(){
+
+					var map = L.map('main_map').setView([22.3663494,91.8204092], 12.5);
+					L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+						attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+					}).addTo(map);
+
+					var markers = {};
+
+                    var hospitals = new Array();
+                    var latitudes = new Array();
+                    var longitudes = new Array();
+                    var contacts = new Array();
+
+                    @foreach (var d in Model)
+                    {
+                        @:hospitals.push("@d.Name");
+                        @:latitudes.push("@d.Latitude");
+                        @:longitudes.push("@d.Longitude");
+                        @:contacts.push("@d.Contact");
+                    }
+
+
+                    for (var i = 0; i < hospitals.length; i++) {
+						markers[i] = L.marker([latitudes[i],longitudes[i]]).addTo(map)
+                            .bindPopup('<span class="name_holder">' + hospitals[i] + '</span><br/><span class="contact_holder">' +
+                                contacts[i] + '</span>')
+							.bindTooltip(hospitals[i]+"<br/>"+contacts[i]);
+
+                        //console.log(hospitals[i].Name);
+					}
+
+					markers[0].openPopup();
+
+					$(".contact_parent").click(function(){
+						var the_index = $(".contact_parent").index($(this));
+						markers[the_index].openPopup();
+					});
+
+				});
+
+    </script>
+
+
+}
